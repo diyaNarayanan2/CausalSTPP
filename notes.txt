@@ -1,0 +1,56 @@
+functions to visualise 
+conditional intensity = mu + reproductivity * weibull
+reproductivity function over iterations of EM
+weibull over iterations of EM with values of alpha and beta marked 
+
+so need to: 
+define a function to visualise R, weibull and mu 
+function to display text to conditional intensity and final model 
+display past points with final model as background 
+
+display final case count county wise as a simple nonlinear graph with the history 
+
+
+
+
+What is happening in my code 
+
+initialise data to be fed for model training
+-mobility getting extra stacked by mobi_shift_in days to represent the lag in mobility calculations
+-mobility reshapes to have 6 rows correspodong to number of mobility types
+
+create covar_tr : contains the mobility and demography values 
+
+initialise wbl_val 
+initialise K0 
+initialise mu
+
+upadtep function- updates p_i,j and p_i,i based on existing function values of K0, wbl, t 
+takes inputs (t, p, q, K0, alpha, beta, mu)
+
+
+E step 
+Calculate the expectation of function values
+
+q is calculated with K0_ext_j, wbl_val and covid cases 
+K0 and wbl_val are reupdated in the maximisation part based on the current calculation of q 
+??? shouldn't q be the log lieklihood expectation and not just plain caclculation 
+q is used in lambda calculation 
+lambda calculation is b asicallhy = p_c * freq^2 (why sqaured?)
+and then updated as q/lam
+
+updatep function is not needed as q is automatically updated correctly 
+
+M step 
+maximum likelihood estimation of 
+ 
+step 1) 
+estimating K0 which is the values of covariates for process modelling 
+done using poisson regression over covar (mobility & demography values) 
+with freqs set to covid cases per day * q
+step 2) 
+fitting the weibull curve for past covid cases i.e. 
+maximum likelihood estimation of alpha beta
+step3) 
+analytical calculation of mu 
+
